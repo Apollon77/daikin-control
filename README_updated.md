@@ -19,7 +19,7 @@ This project aims to provide 2 main things:
 - **web interface** to manage air conditioner settings
 
 
-##Tested Hardware
+## Tested Hardware
 
 Throughout this document is to be considered valid for the following hardware configurations
 
@@ -72,7 +72,7 @@ ATX20KV1B, ATX25KV1B, ATX35KV1B, , ATXL25J2V1B, ATXL35J2V1B,
 Compatible units in combination with BRP069A44 (?):
 FTX50KV1B, FTX60KV1B
 
-##API System
+## API System
 
 Daikin original API use REST.
 
@@ -116,14 +116,14 @@ Uri                | GET (A) | POST (A) | GET/POST (B) | desc
 
 
 
-##Parameters
-###Common parameters
+## Parameters
+### Common parameters
 param name : **lpw**
 description: password to access the configuration
 
-###`/common/set_control_info`
+### `/common/set_control_info`
 
-####Power
+#### Power
 param name :  **pow**
 
 description: represents the power state of the device
@@ -133,7 +133,7 @@ value | desc
   0   | OFF
   1   | ON
 
-####Mode
+#### Mode
 param name :  **mode**
 
 description: represents the operating mode
@@ -146,7 +146,7 @@ value | desc
   6   | FAN
   0-1-7   | AUTO
 
-####Temp
+#### Temp
 param name : **stemp**
 
 description: represents the target temperature
@@ -164,7 +164,7 @@ In mode 6 (FAN) the temperature will be set to "--" by the device.
 
 The device memorize last target temp state for each mode under dft* (dft1,dft2...) parameters. You can't set directly these.
 
-####Fan rate
+#### Fan rate
 param name : **f_rate**
 
 description: represents the fan rate mode
@@ -181,7 +181,7 @@ B     | silence
 
 The device memorize last fan rate state for each mode under dfr* (dfr1,dfr2...) parameters. You can't set directly these.
 
-####Fan direction
+#### Fan direction
 param name : **f_dir**
 
 description: represents the fan direction
@@ -195,7 +195,7 @@ value | desc
 
 The device memorize last fan rate state for each mode under dfd* (dfd1,dfd2...) parameters. You can't set directly these.
 
-####Humidity
+#### Humidity
 param name : **shum**
 
 description: represents the target humidity
@@ -234,8 +234,8 @@ While these are the ones that can be omitted:
 
 minimal request example: `pow=1&mode=1&stemp=26&shum=0&f_rate=B&f_dir=3`
 
-###`/common/set_led`
-####Led
+### `/common/set_led`
+#### Led
 Turns ON/OFF the leds on the WiFi controller (Power, Run, AP).
 ??It seems that this settings doesn't actually change led.
 
@@ -247,13 +247,13 @@ value | desc
   0   | Turns OFF the leds
   1   | Turns ON the leds
 
-###`/common/get_datetime`
+### `/common/get_datetime`
 example response:
 ```
 ret=OK,sta=2,cur=2016/12/11 12:0:33,reg=eu,dst=1,zone=313
 ```
 
-###`/aircon/get_scdltimer_info`
+### `/aircon/get_scdltimer_info`
 example response:
 ```
 ret=OK,format=v1,f_detail=total#18;_en#1;_pow#1;_mode#1;_temp#4;_time#4;_vol#1;_dir#1;_humi#3;_spmd#2,scdl_num=3,scdl_per_day=6,en_scdltimer=1,active_no=1,scdl1_name=,scdl2_name=,scdl3_name=
@@ -280,10 +280,10 @@ name of target 2 (the official app doesn't display and clears this field)
 param name: **scdl3_name**
 name of target 3 (the official app doesn't display and clears this field)
 
-###`"/aircon/set_scdltimer_info`
+### `"/aircon/set_scdltimer_info`
 for parameters, see get_scdltimer_info. It is possible to set: en_scdltimer, active_no, scdl1_name, scdl2_name or scdl3_name
 
-###`/aircon/get_scdltimer_body`
+### `/aircon/get_scdltimer_body`
 param name: **target**
 description: number of the set of timer to retrieve (between 1 and 3)
 example response:
@@ -312,7 +312,7 @@ Character # |  Value
 13-16 | '----' (not used?)
 17-18 | '\-\-' when turning off the AC, '10' when turning it on
 
-###`/aircon/set_scdltimer_body`
+### `/aircon/set_scdltimer_body`
 sets the configuration of timers. Parameter meaning is the same as get_scdltimer_body. Needed parameters are: format (v1), target (1 if you want to be compatible with the official app), moc, tuc, wec, thc, frc, sac, suc. If count on any day is different from 0, there must be one configuration of type XXY for each entry (e.g. if suc=2, you must define both su1 and su2). Note that each time the command is executed, it overwrites the previous configuration for the target: there doesn't seem to be a way to modify an entry (for instance to enable/disable it).
 examples:
 ```
@@ -332,7 +332,7 @@ aircon/set_scdltimer_body?format=v1&target=1&moc=2&tuc=0&wec=0&thc=0&frc=0&sac=0
 ```
 (Sets 2 timer entries: on monday at 20:00, turn on in cool mode with temperature of 25.0 °C, fan speed: AUTO. On monday at 20:30, turn off; the second entry is disabled so it will not be executed).
 
-###`/aircon/get_day_power_ex`
+### `/aircon/get_day_power_ex`
 param name: **days**
 description: the number of days for which power consumption will be returned, can be from 2 to 7. Different values will return the power for current and last day.
 Return parameters:
@@ -344,7 +344,7 @@ ret=OK,curr_day_heat=0/0/0/0/0/0/0/0/0/0/0/0/3/6/1/0/0/0/0/0/0/0/0/0,prev_1day_h
 ```
 (today's consumption for heating is 0.3 kWh between 12:00 and 13:00, 0.6 kWh between 13:00 and 14:00 and 0.1 kWh between 14:00 and 15:00)
 
-###`/aircon/get_week_power_ex`
+### `/aircon/get_week_power_ex`
 return parameters:
 param name: **s_dayw**
 description: today's weekday (0 for sunday, 1 for monday and so on)
@@ -355,7 +355,7 @@ example response:
 ret=OK,s_dayw=0,week_heat=10/0/0/0/0/0/1/0/0/0/1/0/0/0,week_cool=0/0/0/0/0/0/0/0/0/0/0/0/0/0
 ```
 
-###`/aircon/get_year_power_ex`
+### `/aircon/get_year_power_ex`
 param name: **curr_year_heat**, **prev_year_heat**, **curr_year_cool**, **prev_year_cool** returns the power consumption in 0.1 kWh for current and last year, separated by month, both for heating and for cooling.
 example response:
 ```
@@ -363,7 +363,7 @@ ret=OK,curr_year_heat=0/0/0/0/0/0/0/0/0/40/55/13,prev_year_heat=0/0/0/0/0/0/0/0/
 ```
 (Consumption for heating this year is 4 kWh in October, 5.5 kWh in November and 1.3 kWh in December, whereas consumption for cooling is 2.4 kWh in June, 23.7 kWh in July, 5.2 kWh in August, 4.1 kWh in September and 0.4 kWh in October, no power consumption last year).
 
-###`/aircon/set_special_mode`
+### `/aircon/set_special_mode`
 This command can be used either specifying set_spmode and spmode_kind or specifying en_streamer.
 
 parameter: **set_spmode**
@@ -404,7 +404,7 @@ Enables econo mode
 Enables streamer
 
 
-##Unsupported settings
+## Unsupported settings
 This list show which hardware functionality are not supported by API
 
 - led brightness switch
@@ -416,11 +416,11 @@ This list show which hardware functionality are not supported by API
 - [daikin-controller](https://github.com/Apollon77/daikin-controller): NodeJs library for managing Daikin air conditioners
 
 
-##Useful resource
+## Useful resource
 - http://daikinsmartdbt.jp/ the site has been shut down but you can still have a look at the [cached page](https://github.com/ael-code/daikin-control/blob/readme_plus/daikinsmartdbt.htm)
 
 
-##Control Info Examples
+## Control Info Examples
 
 Switched Off
 ```
