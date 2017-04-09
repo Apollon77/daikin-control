@@ -38,7 +38,39 @@ WifiControllerID:   BRP069A41
 Software version:   2.6.0
 ```
 
+Also tested as working with
+```
+ModelName:          Daikin Cora Q-Series
+ModelID:            FTXM71QVMA
+WifiControllerID:   BRP072A42 4P384919-1C
+Software version:   2.2.6
+```
+
 Please contact me if you try new configurations.
+
+According to Daikin Support Documents the following devices should be compatible (at least):
+
+Compatible units in combination with BRP069A41:
+FTXG20LV1BW, FTXG20LV1BS , FTXG25LV1BW, FTXG25LV1BS, FTXG35LV1BW, FTXG35LV1BS, FTXG50LV1BW, FTXG50LV1BS,
+FTXJ20LV1BW, FTXJ20LV1BS, FTXJ25LV1BW, FTXJ25LV1BS, FTXJ35LV1BW, FTXJ35LV1BS, FTXJ50LV1BW, FTXJ50LV1BS ,
+
+Compatible units in combination with BRP069A42:
+FTXZ25NV1B, FTXZ35NV1B, FTXZ50NV1B, FTXS35K2V1B, FTXS35K3V1B, FTXS42K2V1B, FTXS42K3V1B, FTXS50K2V1B,
+FTXS50K3V1B, FTXLS25K2V1B, FTXLS35K2V1B,FTXM35K3V1B, FTXM42K3V1B, FTXM50K3V1B, , FTXS60GV1B, FTXS71GV1B,
+ATXS35K2V1B, ATXS35K3V1B, ATXS50K2V1B, ATXS50K3V1B, , FTX50GV1B, FTX60GV1B, FTX71GV1B, , FVXG25K2V1B,
+FVXG35K2V1B, FVXG50K2V1B, , FVXS25FV1B, FVXS35FV1B, FVXS50FV1B, , FLXS25BAVMB, FLXS25BVMA, FLXS25BVMB,
+FLXS35BAVMB, FLXS35BAVMB9, FLXS35BVMA, FLXS35BVMB, FLXS50BAVMB, FLXS50BVMA, FLXS50BVMB, FLXS60BAVMB,
+FLXS60BVMA, FLXS60BVMB,
+
+Compatible units in combination with BRP069A43 (?):
+CTXS15K2V1B, CTXS15K3V1B, FTXS20K2V1B, FTXS20K3V1B, FTXS25K2V1B, FTXS25K3V1B, CTXS35K2V1B, CTXS35K3V1B,
+FTXM20K3V1B, FTXM25K3V1B, , ATXS20K2V1B, ATXS20K3V1B, ATXS25K2V1B, ATXS25K3V1B, , FTX20J2V1B, FTX25J2V1B,
+FTX35J2V1B, FTX20J3V1B, FTX25J3V1B, FTX35J3V1B, , FTXL25J2V1B, FTXL35J2V1B, , FTX20KV1B, FTX25KV1B, FTX35KV1B,
+FTX20GV1B, FTX25GV1B, FTX35GV1B, , ATX20J2V1B, ATX20J3V1B, ATX25J2V1B, ATX25J3V1B, ATX35J2V1B, ATX35J3V1B,
+ATX20KV1B, ATX25KV1B, ATX35KV1B, , ATXL25J2V1B, ATXL35J2V1B,
+
+Compatible units in combination with BRP069A44 (?):
+FTX50KV1B, FTX60KV1B
 
 ##API System
 
@@ -127,8 +159,10 @@ AUTO  | 18-31
 HOT   | 10-31
 COLD  | 18-33
 
+In mode 2 (DEHUMDIFICATOR) the temperature will be set to "M" by the device.
+In mode 6 (FAN) the temperature will be set to "--" by the device.
 
-device memorize last target temp state for each mode under dft* (dft1,dft2...) parameters. You can't set directly these.
+The device memorize last target temp state for each mode under dft* (dft1,dft2...) parameters. You can't set directly these.
 
 ####Fan rate
 param name : **f_rate**
@@ -145,7 +179,7 @@ B     | silence
 6     | lvl_4
 7     | lvl_5
 
-device memorize last fan rate state for each mode under dfr* (dfr1,dfr2...) parameters. You can't set directly these.
+The device memorize last fan rate state for each mode under dfr* (dfr1,dfr2...) parameters. You can't set directly these.
 
 ####Fan direction
 param name : **f_dir**
@@ -159,7 +193,7 @@ value | desc
 2     | horizontal wings motion
 3     | vertical and horizontal wings motion
 
-device memorize last fan rate state for each mode under dfd* (dfd1,dfd2...) parameters. You can't set directly these.
+The device memorize last fan rate state for each mode under dfd* (dfd1,dfd2...) parameters. You can't set directly these.
 
 ####Humidity
 param name : **shum**
@@ -168,7 +202,9 @@ description: represents the target humidity
 
 Daikin Emura FTXG-L does not support humidity related functionality.
 
-device memorize last humidity state for each mode under dh* (dh1,dh2...) parameters. You can't set directly these.
+In mode 6 (FAN) the humidity will be set to "--" by the device, value "A" is also supported then.
+
+The device memorize last humidity state for each mode under dh* (dh1,dh2...) parameters. You can't set directly these.
 
 ------------------------------
 ### Minimal parameters set
@@ -264,6 +300,7 @@ param name: ***moc***, ***tuc***, ***wec***, ***thc***, ***frc***, ***sac***, **
 description: number of timer entries configured repectively for monday, tuesday, wednesday, thursdat, friday, saturday and sunday
 param name: ***XXY*** where XX can be chosen between 'mo', 'tu', 'we', 'th', 'fr', 'sa' and Y is an integer between 1 and 6. examples: mo1, mo2, fr1.
 description: shows the configuration of the timer Y on day XX. The configuration is composed as follows:
+
 Character # |  Value
 :----:|-----
 1 |  '0'=timer entry not active '1'=timer entry active
@@ -328,20 +365,26 @@ ret=OK,curr_year_heat=0/0/0/0/0/0/0/0/0/40/55/13,prev_year_heat=0/0/0/0/0/0/0/0/
 
 ###`/aircon/set_special_mode`
 This command can be used either specifying set_spmode and spmode_kind or specifying en_streamer.
+
 parameter: **set_spmode**
 description: if set to 0, the selected special mode is disabled, if set to 1, it is enabled
+
 parameter: **spmode_kind**
 description: selects which special mode should be enabled/disabled. Possible values for configuration B are:
+
 Value|Mode|Adv code
 :----:|-----|-
 1 | Power mode | ADV 2
 2 | Econo mode | ADV 12
+
 parameter: **en_streamer**
 description: enables ion streamer
+
 Value|Mode|Adv code
 :----:|-----|-
 1 | Streamer enabled | ADV 13
 0 | Streamer disabled |
+
 Command examples:
 ```
 /aircon/set_special_mode?set_spmode=0&spmode_kind=1
@@ -370,6 +413,7 @@ This list show which hardware functionality are not supported by API
 ## Libraries
 - [daikin-aricon-pylib](https://github.com/ael-code/daikin-aricon-pylib): Python library for managing Daikin air conditioners
 - [jdaikin](https://bitbucket.org/JonathanGiles/jdaikin): Java-based API to interact with Daikin units
+- [daikin-controller](https://github.com/Apollon77/daikin-controller): NodeJs library for managing Daikin air conditioners
 
 
 ##Useful resource
