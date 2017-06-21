@@ -121,7 +121,7 @@ Uri                | GET (A) | POST (A) | GET/POST (B) | desc
 param name : **lpw**
 description: password to access the configuration
 
-### `/common/set_control_info`
+### `/aircon/set_control_info`
 
 #### Power
 param name :  **pow**
@@ -209,7 +209,7 @@ The device memorize last humidity state for each mode under dh* (dh1,dh2...) par
 ------------------------------
 ### Minimal parameters set
 
-The `/common/set_control_info` has some mandatory parameters, it means that you need to include them in all the requests to this endpoint even if you are not interested in changing those specific values.
+The `/aircon/set_control_info` has some mandatory parameters, it means that you need to include them in all the requests to this endpoint even if you are not interested in changing those specific values.
 
 These are the mandatory parameters:
 - `pow`
